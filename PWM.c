@@ -6,11 +6,11 @@
 
 uint16_t i=0;
 TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
-TIM_OCInitTypeDef 			TIM_OCInitStructure;
+TIM_OCInitTypeDef 	TIM_OCInitStructure;
 
 void PWM_Init()
 {	
-	GPIO_InitTypeDef 				GPIO_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE); // 1- Enable clock
 	
 	// 2- Configure corresponding GPIO pins
@@ -23,21 +23,20 @@ void PWM_Init()
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	// 3- Configure time base unit
-	/* Hesaplamam soyle. 1/72Mhz benim bir step surem. 72 Prescalar ile carptigimda
-		72/72.000.000 = 1/1.000.000 eder bir adimim. Ben 50Hz istiyorsam periyodumu, 1/50s eder.
-		1/1.000.000 * x = 1/50 'ye gelmis olur problem. Buradan da x=20.000	*/ 
-	TIM_TimeBaseInitStructure.TIM_ClockDivision			= TIM_CKD_DIV1;
-	TIM_TimeBaseInitStructure.TIM_CounterMode  			= TIM_CounterMode_Up;
-	TIM_TimeBaseInitStructure.TIM_Period			 		  = 20000;
-	TIM_TimeBaseInitStructure.TIM_Prescaler 				= 72;
+	/* 1/72Mhz * 72(prescalar) = 1/1Mhz; 
+	for 50Hz: (1/1Mhz)/(1/50Hz) = 20000 */
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseInitStructure.TIM_CounterMode   = TIM_CounterMode_Up;
+	TIM_TimeBaseInitStructure.TIM_Period	    = 20000;
+	TIM_TimeBaseInitStructure.TIM_Prescaler     = 72;
 	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseInitStructure);
 	
 	// 4- Fill the TIM_OCInitStruct
-	TIM_OCInitStructure.TIM_OCMode				= TIM_OCMode_PWM1;
-	TIM_OCInitStructure.TIM_OCPolarity		= TIM_OCPolarity_High;
+	TIM_OCInitStructure.TIM_OCMode	      = TIM_OCMode_PWM1;
+	TIM_OCInitStructure.TIM_OCPolarity    = TIM_OCPolarity_High;
 	TIM_OCInitStructure.TIM_OutputState   = TIM_OutputState_Enable;
-	TIM_OCInitStructure.TIM_Pulse 			  = 600;
+	TIM_OCInitStructure.TIM_Pulse 	      = 600;
 	
 	// 5- Call TIM_OCxInit(TIMx, &TIM_OCInitStruct)
 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);
