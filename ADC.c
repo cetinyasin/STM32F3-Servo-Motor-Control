@@ -6,8 +6,8 @@
 void ADC1_Init()
 {
 	// Init Structures
-	GPIO_InitTypeDef			GPIO_InitStructure;
-	ADC_InitTypeDef  			ADC_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	ADC_InitTypeDef  ADC_InitStructure;
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	// Clocks
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
@@ -22,11 +22,11 @@ void ADC1_Init()
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	// Calibration procedure
-  ADC_VoltageRegulatorCmd(ADC1, ENABLE);
+  	ADC_VoltageRegulatorCmd(ADC1, ENABLE);
 	
-  ADC_SelectCalibrationMode(ADC1, ADC_CalibrationMode_Single);
-  ADC_StartCalibration(ADC1);
-  while(ADC_GetCalibrationStatus(ADC1) != RESET); 
+  	ADC_SelectCalibrationMode(ADC1, ADC_CalibrationMode_Single);
+  	ADC_StartCalibration(ADC1);
+  	while(ADC_GetCalibrationStatus(ADC1) != RESET); 
 		
 	// Configure ADC Common
 	ADC_CommonInitStructure.ADC_Mode  = ADC_Mode_Independent;
@@ -39,7 +39,7 @@ void ADC1_Init()
 	ADC_InitStructure.ADC_NbrOfRegChannel = 1;
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
 	ADC_InitStructure.ADC_OverrunMode = ADC_OverrunMode_Disable; 
-  ADC_InitStructure.ADC_AutoInjMode = ADC_AutoInjec_Disable;	
+ 	ADC_InitStructure.ADC_AutoInjMode = ADC_AutoInjec_Disable;	
 	ADC_InitStructure.ADC_ExternalTrigConvEvent = ADC_ExternalTrigConvEvent_0;
 	ADC_InitStructure.ADC_ExternalTrigConvEvent = ADC_ExternalTrigEventEdge_None;
 	ADC_Init(ADC1, &ADC_InitStructure);
@@ -56,5 +56,5 @@ void ADC1_Init()
 uint16_t Read_ADC1(void)
 {
 	while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC)==RESET);   // End of regular conversion flag
-	return ADC_GetConversionValue(ADC1); 									 // 12-bit. [0-4095]
+	return ADC_GetConversionValue(ADC1); 		       // 12-bit. [0-4095]
 }
